@@ -10,7 +10,7 @@ class Player
   # Initialize instance variables.
   def initialize
     @health = MAX_HEALTH
-    @direction = :forward
+    @direction = :backward
   end
 
   def play_turn(warrior)
