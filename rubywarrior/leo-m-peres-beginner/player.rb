@@ -15,6 +15,7 @@ class Player
 
     if warrior.feel.empty?
 
+      # Keep the warrior health up.
       if warrior.health >= MAX_HEALTH || archer_attack
         warrior.walk!
       else
@@ -22,7 +23,7 @@ class Player
       end
 
     else
-      warrior.attack!
+      warrior.feel.captive? ? warrior.rescue! : warrior.attack!
     end
     # binding.pry
 
