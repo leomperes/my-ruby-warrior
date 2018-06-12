@@ -22,13 +22,24 @@ class Player
 
       # Keep the warrior health up.
       if warrior.health >= HEALTHY || archer_attack
-        warrior.feel(@direction).wall? ? warrior.pivot! : warrior.walk!(@direction)
+        if warrior.feel(@direction).wall?
+          warrior.pivot!
+        else
+          if warrior.look[0].to_s != 'Captive' &&
+              (warrior.look[0].to_s == 'Wizard' ||
+                  warrior.look[1].to_s == 'Wizard')
+            warrior.shoot!
+          else
+            warrior.walk! @direction
+          end
+        end
       else
         warrior.rest!
       end
 
     else
 
+      # warrior.feel.captive? ? warrior.rescue! : warrior.attack!
       rescue_or_attack(warrior)
 
     end
