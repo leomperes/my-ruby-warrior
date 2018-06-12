@@ -18,12 +18,11 @@ class Player
     # Check if the warrior is under archer attack.
     archer_attack = warrior.health < @health
 
-    if warrior.feel(@direction).empty? || warrior.feel(:backward).wall?
+    if warrior.feel(@direction).empty? || warrior.feel(@direction).wall?
 
       # Keep the warrior health up.
       if warrior.health >= HEALTHY || archer_attack
-        warrior.walk! @direction
-        @direction = :forward if warrior.feel(:backward).wall?
+        warrior.feel(@direction).wall? ? warrior.pivot! : warrior.walk!(@direction)
       else
         warrior.rest!
       end
@@ -40,6 +39,10 @@ class Player
 
   private
 
+  def hit_back_the_wall?(warrior)
+    warrior.pivot! if warrior.feel(@direction).wall?
+  end
+
   # Use +warrior.feel.captive?+ to see if there is a captive and
   # +warrior.rescue!+ to rescue him. Don't attack captives.
   def rescue_or_attack(warrior)
@@ -47,7 +50,7 @@ class Player
       warrior.rescue! @direction
       @direction = :forward
     else
-      warrior.attack!
+      warrior.attack! @direction
       @direction = :backward if need_rest?(warrior)
     end
   end
