@@ -6,7 +6,6 @@
 
 # 100.times { |n| p n+1 ... }
 (1..100).each do |number|
-
   puts case
        when (number % 3).zero? && (number % 5).zero?
          'FizzBuzz'
@@ -17,5 +16,4 @@
        else
          number
        end
-
 end
